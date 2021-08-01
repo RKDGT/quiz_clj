@@ -47,7 +47,7 @@
 
 (defn page-for [route]
   (let [questions (re-frame/subscribe [::subs/quiz])]
-    (prn @questions)
+    (prn (js->clj @questions))
     (case route
       :index (quiz-comp/quiz @questions)
     ;; :index tr

@@ -32,8 +32,8 @@
 (re-frame/reg-event-db
  :process-response
  (fn [db [_ response]]
-     (assoc db :quiz response)
-   ))
+   (prn response)
+   (assoc db :quiz response)))
 
 (re-frame/reg-event-db
  :bad-response
