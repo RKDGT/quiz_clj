@@ -1,0 +1,1 @@
+(ns simple-quiz.components.results)

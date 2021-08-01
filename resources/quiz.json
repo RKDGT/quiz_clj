@@ -1,0 +1,22 @@
+{
+    "title": "Example Survey",
+    "questions": [
+        {
+            "question": "Enter your city:",
+            "type": "free-text",
+            "required": false
+        },
+        {    
+           "question": "Do you like this survey?",
+            "required": true,
+            "type": "single-choice",
+            "values": ["Yes", "No"]
+        },
+        {   
+            "question": "What are your favorite fruits?",
+            "type": "multiple-choice",
+            "required": true,
+            "values": ["Apple", "Orange", "Banana", "Tomato"]
+        }
+    ]
+}
