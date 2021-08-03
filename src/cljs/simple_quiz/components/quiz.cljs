@@ -1,5 +1,8 @@
 (ns simple-quiz.components.quiz
-   (:require))
+  (:require
+   [re-frame.core :as re-frame]
+   [simple-quiz.subs :as subs]
+   [reagent.core :as r]))
 
 (defmulti question-answers (fn [question] (:type question)))
 
@@ -59,11 +62,12 @@
 ;; -------------------------
 ;; Page components
 
-(defn quiz [questions]
+(defn quiz []
   (fn []
-    [:div.questions
-     [:h1 (:title questions)]
-     [:p "all question that marked by * is required"]
-     (for [question (:questions questions)]
-       [question-card question])
-     [:button {:type "submit" :on-click read-answers} "Send answer"]]))
+    (let [questions (:quiz @(re-frame/subscribe [::subs/quiz]))]
+      [:div.questions
+       [:h1 (:title questions)]
+       [:p "all question that marked by * is required"]
+       (for [question (:questions questions)]
+         [question-card question])
+       [:button {:type "submit" :on-click read-answers} "Send answer"]])))

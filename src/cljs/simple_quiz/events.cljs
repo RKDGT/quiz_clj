@@ -16,24 +16,24 @@
 (re-frame/reg-event-db
  ::initialize-db
  (fn [_ _]
-   db/default-db))
+   db/quiz-db))
 
 (re-frame/reg-event-fx
- :request
+ ::read-quiz-json
  (fn []
    {:http-xhrio {:uri "http://localhost:3000/question"
                  :method :get
                  :timeout 10000
                  :format (ajax/json-request-format)
                  :response-format (ajax/json-response-format {:keywords? true})
-                 :on-success [:process-response]
+                 :on-success [::process-response]
                  :on-failure [:bad-response]}}))
 
 (re-frame/reg-event-db
- :process-response
+ ::process-response
  (fn [db [_ response]]
-   (prn response)
-   (assoc db :quiz response)))
+   (-> db
+       (assoc-in [:data :quiz] (js->clj response)))))
 
 (re-frame/reg-event-db
  :bad-response

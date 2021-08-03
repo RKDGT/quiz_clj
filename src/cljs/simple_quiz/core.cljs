@@ -6,8 +6,8 @@
    [reitit.frontend :as reitit]
    [clerk.core :as clerk]
    [accountant.core :as accountant]
-   [simple-quiz.components.quiz :as quiz-comp]
    [re-frame.core :as re-frame]
+   [simple-quiz.components.quiz :as quiz-comp]
    [simple-quiz.subs :as subs]
    [simple-quiz.events :as events]))
 
@@ -46,12 +46,10 @@
 ;;     [:p "lol"]))
 
 (defn page-for [route]
-  (let [questions (re-frame/subscribe [::subs/quiz])]
-    (prn (js->clj @questions))
-    (case route
-      :index (quiz-comp/quiz @questions)
+  (case route
+    :index quiz-comp/quiz
     ;; :index tr
-      )))
+    ))
 
 
 ;; -------------------------
@@ -67,15 +65,13 @@
 
 (defn ^:dev/after-load mount-root []
   (re-frame/clear-subscription-cache!)
-  ;; (let [root-el (.getElementById js/document "app")]
-  ;;   (rdom/unmount-component-at-node root-el)
-  ;;   (rdom/render [current-page] root-el))
-  (rdom/render [current-page] (.getElementById js/document "app"))
-  )
+  (let [root-el (.getElementById js/document "app")]
+    (rdom/unmount-component-at-node root-el)
+    (rdom/render [current-page] root-el)))
 
 (defn init! []
   (re-frame/dispatch-sync [::events/initialize-db])
-  (re-frame/dispatch [:request])
+  (re-frame/dispatch-sync [::events/read-quiz-json])
   (clerk/initialize!)
   (accountant/configure-navigation!
    {:nav-handler

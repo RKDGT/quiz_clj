@@ -1,6 +1,4 @@
-(ns simple-quiz.db
-  (:require
-   [reagent.core :as r]))
+(ns simple-quiz.db)
 
-(def default-db {:quiz {}
-                 :result {}})
+(def quiz-db {:data {:quiz {:title ""
+                            :questions []}}})

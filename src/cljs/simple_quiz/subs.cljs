@@ -5,4 +5,4 @@
 (re-frame/reg-sub
  ::quiz
  (fn [db]
-   (:quiz db)))
+   (:data db)))
