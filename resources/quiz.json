@@ -17,6 +17,12 @@
             "type": "multiple-choice",
             "required": true,
             "values": ["Apple", "Orange", "Banana", "Tomato"]
-        }
+        },
+        {    
+            "question": "Do you like this survey?",
+             "required": true,
+             "type": "single-choice",
+             "values": ["Yes", "No"]
+         }
     ]
 }

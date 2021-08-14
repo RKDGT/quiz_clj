@@ -1,0 +1,1 @@
+{"title":"Example Survey","results":[{"question":"Enter your city:","type":"free-text","values":"jlk"},{"question":"Do you like this survey?","type":"single-choice","values":"Yes"},{"question":"What are your favorite fruits?","type":"multiple-choice","values":["Orange","Tomato"]},{"question":"Do you like this survey?","type":"single-choice","values":"No"}]}

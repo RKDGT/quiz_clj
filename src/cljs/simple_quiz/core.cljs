@@ -8,48 +8,32 @@
    [accountant.core :as accountant]
    [re-frame.core :as re-frame]
    [simple-quiz.components.quiz :as quiz-comp]
-   [simple-quiz.subs :as subs]
    [simple-quiz.events :as events]))
-
-;; (def questions (r/atom {:title "Example Survey"
-;;                         :questions [{:question "Enter your city:"
-;;                                      :type "free-text"
-;;                                      :required false}
-;;                                     {:question "Do you like this survey?"
-;;                                      :required true
-;;                                      :type "single-choice"
-;;                                      :values ["Yes" "No"]}
-;;                                     {:question "What are your favorite fruits?"
-;;                                      :type "multiple-choice"
-;;                                      :required true
-;;                                      :values ["Apple" "Orange" "Banana" "Tomato"]}]}))
-
-(def questionss (re-frame/subscribe [::subs/quiz]))
 ;; -------------------------
 ;; Routes
 
 (def router
   (reitit/router
-   [["/" :index]]))
+   [["/" :index]
+    ["/stat" :stat]]))
 
 (defn path-for [route & [params]]
   (if params
     (:path (reitit/match-by-name router route params))
     (:path (reitit/match-by-name router route))))
 
+
+(defn s []
+  (re-frame/dispatch-sync [::events/read-results-json])
+  [:p "lol"])
 ;; -------------------------
 ;; Translate routes -> page components
-
-;; (defn tr []
-;;   (let [curr (re-frame/subscribe [::subs/quiz])]
-;;     (js/console.log (str (:title @curr)))
-;;     [:p "lol"]))
 
 (defn page-for [route]
   (case route
     :index quiz-comp/quiz
-    ;; :index tr
-    ))
+    :stat s
+    :default nil))
 
 
 ;; -------------------------
@@ -71,7 +55,7 @@
 
 (defn init! []
   (re-frame/dispatch-sync [::events/initialize-db])
-  (re-frame/dispatch-sync [::events/read-quiz-json])
+  (re-frame/dispatch [::events/read-quiz-json])
   (clerk/initialize!)
   (accountant/configure-navigation!
    {:nav-handler
