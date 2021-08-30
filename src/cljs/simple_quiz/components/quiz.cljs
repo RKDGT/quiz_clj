@@ -8,6 +8,8 @@
 
 (def answer-key (atom 1))
 
+(def radio-name (atom 0))
+
 (def required (atom ""))
 
 (defmulti question-answers (fn [question] (:type question)))
@@ -15,26 +17,23 @@
 (defmethod question-answers
   "free-text"
   [question]
-  [:div.free-text (when
-                   (:required question)
-                    {:data-type (:required question)})
+  [:div.free-text
    [:input (if (:required  question)
-                           {:type "text" :name @question-id :required ""}
-                           {:type "text" :name @question-id})]])
+             {:type "text" :name @question-id :required ""}
+             {:type "text" :name @question-id})]])
 
 (defmethod question-answers
   "single-choice"
   [question]
-  [:div.single-choice (when
-                       (:required question)
-                        {:data-type (:required question)})
+  (swap! radio-name inc @radio-name)
+  [:div.single-choice 
    (for [answer (:values question)]
      (do
        (swap! answer-key inc @answer-key)
        [:div.choice-answer {:key @answer-key}
         [:input.radio (if (:required  question)
-                           {:type "radio" :name @question-id :required ""}
-                           {:type "radio" :name @question-id})]
+                           {:type "radio" :name (str "radio" @radio-name) :required ""}
+                           {:type "radio" :name (str "radio" @radio-name)})]
         [:p answer]]))])
 
 (defmethod question-answers
