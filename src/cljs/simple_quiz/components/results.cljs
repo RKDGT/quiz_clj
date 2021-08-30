@@ -43,6 +43,7 @@
    (let [values (seq (:values question))
          freq-sum (reduce + (map second (seq (:values question))))]
      [:div.choice-answers
+      [:p.amount-free-text (str freq-sum " answers")]
       [frequens-table values freq-sum]
       [column-diagram values freq-sum]]))
 
