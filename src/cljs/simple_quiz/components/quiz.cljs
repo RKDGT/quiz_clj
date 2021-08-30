@@ -2,8 +2,7 @@
   (:require
    [re-frame.core :as re-frame]
    [simple-quiz.subs :as subs]
-   [simple-quiz.events :as events]
-   [reagent.core :as r]))
+   [simple-quiz.events :as events]))
 
 (def question-id (atom 0))
 
@@ -80,18 +79,20 @@
 
 (defn get-answer-by-question
   [question]
-  (case (.-lastChild (.-className question))
+  (case (.-className (.-lastChild question))
     "free-text" (.-value (first (.getElementsByTagName question "input")))
     "single-choice" (get-radio-answer question)
-    "multiple-choice" (get-check-answer question)))
+    "multiple-choice" (get-check-answer question)
+    (js/alert "Error: unexpectable type of question. Refresh the page and try again.")))
  
 (defn read-answers
   []
   (loop [result []
          [question & questions] (.getElementsByClassName js/document "question")]
     (if (not question)
-      (let [result {:title (.-innerHTML (first (.getElementsByTagName js/document "h1")))
-                    :results result}]
+      (do
+        (reset! answer-key 0)
+        (reset! question-id 0)
         (re-frame/dispatch-sync [::events/post-results result]))
       (recur (conj result {:question (.-innerHTML (first (.getElementsByTagName question "h2")))
                            :type (.-className (.-lastChild question))

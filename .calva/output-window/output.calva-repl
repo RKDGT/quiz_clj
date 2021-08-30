@@ -18,15 +18,3 @@
 clj꞉simple-quiz.repl꞉>  ; Use `alt+enter` to evaluate
 ; Jack-in done.
 clj꞉simple-quiz.repl꞉> 
-#'simple-quiz.handler/read-quiz
-clj꞉simple-quiz.handler꞉> 
-#function[simple-quiz.handler/read-quiz]
-clj꞉simple-quiz.handler꞉> 
-""
-clj꞉simple-quiz.handler꞉> 
-""
-clj꞉simple-quiz.handler꞉> 
-#'simple-quiz.handler/read-quiz
-clj꞉simple-quiz.handler꞉> 
-"{\"title\": \"Example Survey\",\n    \"questions\": [{\"question\": \"Enter your city:\",\n        \"type\": \"free-text\",\n        \"required\": false},\n       {\"question\": \"Do you like this survey?\",\n        \"required\": true,\n        \"type\": \"single-choice\",\n        \"values\": [\"Yes\", \"No\"]},\n       {\"question\": \"What are your favorite fruits?\",\n        \"type\": \"multiple-choice\",\n        \"required\": true,\n        \"values\": [\"Apple\", \"Orange\", \"Banana\", \"Tomato\"] }]}"
-clj꞉simple-quiz.handler꞉> 

@@ -5,14 +5,6 @@
    [ajax.core :as ajax]
    [day8.re-frame.http-fx]))
 
-(defn formed-result [questions]
-    (for [question (:questions questions)]
-      {:question (:question question)
-                     :type (:type question)
-                     :values (if (= (:type question) "free-text")
-                               []
-                               (zipmap (:values question) (vec (replicate (count (:values question)) 0))))}))
-
 (re-frame/reg-event-db
  ::initialize-db
  (fn [_ _]
@@ -21,24 +13,24 @@
 (re-frame/reg-event-fx
  ::read-quiz-json
  (fn []
-   {:http-xhrio {:uri "http://localhost:3000/question"
-                 :method :get
-                 :timeout 10000
-                 :format (ajax/json-request-format)
+   {:http-xhrio {:uri             "http://localhost:3000/question"
+                 :method          :get
+                 :timeout         10000
+                 :format          (ajax/json-request-format)
                  :response-format (ajax/json-response-format {:keywords? true})
-                 :on-success [::process-quiz-response]
-                 :on-failure [:bad-response]}}))
+                 :on-success      [::process-quiz-response]
+                 :on-failure      [:bad-response]}}))
 
 (re-frame/reg-event-fx
  ::read-results-json
  (fn []
-   {:http-xhrio {:uri "http://localhost:3000/results"
-                 :method :get
-                 :timeout 10000
-                 :format (ajax/json-request-format)
+   {:http-xhrio {:uri             "http://localhost:3000/results"
+                 :method          :get
+                 :timeout         10000
+                 :format          (ajax/json-request-format)
                  :response-format (ajax/json-response-format {:keywords? true})
-                 :on-success [::read-results-json]
-                 :on-failure [:bad-response]}}))
+                 :on-success      [::process-results-json]
+                 :on-failure      [:bad-response]}}))
 
 
 (re-frame/reg-event-fx
@@ -61,19 +53,16 @@
 
 
 (re-frame/reg-event-db
- ::read-results-json
+ ::process-results-json
  (fn [db [_ response]]
-  ;;  (let [res (if response
-  ;;              response
-  ;;              )]
-     (prn db)
-  ;;  (-> db
-  ;;      (assoc-in [:data :results] (js->clj )))
-     ))
+   (-> db
+       (assoc-in [:data :results] (js->clj response)))))
+
 (re-frame/reg-event-db
  ::success-post-result
- (fn [db [_ response]]
-   (js/consol.log response)))
+ (fn [_ [_ response]]
+   (js/alert (:m response))
+   (.reload js/location)))
 
 (re-frame/reg-event-db
  :bad-response

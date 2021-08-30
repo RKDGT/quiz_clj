@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 }
 .questions {
   max-width: 90vw; 
@@ -111,4 +112,68 @@ h1{
   line-height: 36px;
   text-transform: none;
   text-align: center;
+}
+
+.colmn-diagram {
+  margin-top: 30px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 180px;
+  background-color: #f0f0f0;
+  position: relative;
+}
+
+.col-of-diagr{
+  align-self: flex-end;
+  width:auto;
+  background-color: blueviolet;
+  bottom: 0px;
+  margin-top: 10px; 
+  border: 2px solid blueviolet;
+}
+
+.free-text-res {
+  display: flex;
+  flex-direction: column;
+  background-color: #dadce0;
+}
+
+.amount-free-text, .free-text-answers{
+  padding-left: 10px;
+}
+
+.free-text-answers {
+  background-color: #f0f0f0; 
+}
+
+.freq-table{
+  display: flex;
+  flex-direction: column;
+  background-color: #dadce0;
+}
+
+.freq-table-elem{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.show-stats-detail{
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(10, 10, 10);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.col-of-diagr:hover .show-stats-detail {
+  visibility: visible;
 }

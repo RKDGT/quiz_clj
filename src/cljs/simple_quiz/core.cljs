@@ -8,7 +8,8 @@
    [accountant.core :as accountant]
    [re-frame.core :as re-frame]
    [simple-quiz.components.quiz :as quiz-comp]
-   [simple-quiz.events :as events]))
+   [simple-quiz.events :as events]
+   [simple-quiz.components.results :as quiz-res]))
 ;; -------------------------
 ;; Routes
 
@@ -17,22 +18,15 @@
    [["/" :index]
     ["/stat" :stat]]))
 
-(defn path-for [route & [params]]
-  (if params
-    (:path (reitit/match-by-name router route params))
-    (:path (reitit/match-by-name router route))))
-
-
-(defn s []
-  (re-frame/dispatch-sync [::events/read-results-json])
-  [:p "lol"])
 ;; -------------------------
 ;; Translate routes -> page components
 
 (defn page-for [route]
   (case route
     :index quiz-comp/quiz
-    :stat s
+    :stat (do
+           (re-frame/dispatch-sync [::events/read-results-json]) 
+            quiz-res/results)
     :default nil))
 
 

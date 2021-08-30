@@ -23,6 +23,17 @@
              "required": true,
              "type": "single-choice",
              "values": ["Yes", "No"]
-         }
+        },
+        {
+            "question": "Try smth new:",
+            "type": "free-text",
+            "required": false
+        },
+        {   
+            "question": "What are your favorite fruits?",
+            "type": "multiple-choice",
+            "required": true,
+            "values": ["Banana", "Tomato"]
+        }
     ]
 }
