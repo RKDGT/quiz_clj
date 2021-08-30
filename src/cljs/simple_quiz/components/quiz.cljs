@@ -6,7 +6,7 @@
 
 (def question-id (atom 0))
 
-(def answer-key (atom 0))
+(def answer-key (atom 1))
 
 (def required (atom ""))
 
@@ -43,18 +43,17 @@
   [:div.multiple-choice
    (for [answer (:values question)]
      (do
-       (swap! answer-key inc @answer-key)
+       (swap! answer-key inc (+ @answer-key @question-id))
        [:div.choice-answer {:key @answer-key}
         [:input.checkbox (if (:required question)
                            {:type "checkbox" :name @question-id :required ""}
                            {:type "checkbox" :name @question-id})]
         [:p answer]]))])
 
-(defn question-card 
+(defn question-card
   [question]
-  (swap! question-id inc @question-id)
-  [:div.question {:key @question-id}
-   [:div.quesion-header 
+  [:div.question
+   [:div.quesion-header
     [:h2 (:question question)]
     (when (:required question)
       [:p "*"])]
@@ -109,5 +108,7 @@
         [:h1 (:title questions)]
         [:p "all question that marked by * is required"]]
        (for [question (:questions questions)]
-         [question-card question])
+         (do
+           (swap! question-id inc @question-id) 
+           ^{:key @question-id} [question-card question]))
        [:button.send-answer {:type "submit" :on-click read-answers} "Send answer"]])))
