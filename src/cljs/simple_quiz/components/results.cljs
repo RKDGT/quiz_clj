@@ -34,7 +34,7 @@
 
 (defn column-diagram [values summary-amount]
   [:div.colmn-diagram
-   (let [scale (/ 100 (second (first values)))]
+   (let [scale (/ 100 (apply max (map second values)))]
      (for [answer values]
        [:div.col-of-diagr {:style {:width (str (/ 100 (+ (count values) 0.5)) "%") :height (str (* (second answer) scale) "%")}}
           [:span.show-stats-detail (str (js/Math.round (* (/ (second answer) summary-amount) 100)) "%")]]))])
